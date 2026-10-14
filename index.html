@@ -452,16 +452,16 @@
 <div class="summary-container">
     <div class="summary-card">
         <div class="summary-item full">
-            <div class="summary-label">Total Keseluruhan</div>
+            <div class="summary-label">Total Keseluruhan (September & Oktober)</div>
             <div class="summary-val" id="card-total-all">Rp 51.046.000</div>
         </div>
-        <div class="summary-item">
-            <div class="summary-label">Total Transfer DANA</div>
-            <div class="summary-val" style="font-size:15px;color:#047857;">Rp 51.010.000</div>
+        <div class="summary-item" style="background:#eff6ff;border-color:#bfdbfe;">
+            <div class="summary-label" style="color:#1e40af;">Total September (31 Transaksi)</div>
+            <div class="summary-val" style="font-size:17px;color:#1e3a8a;">Rp 48.496.000</div>
         </div>
-        <div class="summary-item">
-            <div class="summary-label">Paket Data Tri</div>
-            <div class="summary-val" style="font-size:15px;color:#d97706;">Rp 36.000</div>
+        <div class="summary-item" style="background:#fefce8;border-color:#fef08a;">
+            <div class="summary-label" style="color:#854d0e;">Total Oktober (5 Transaksi)</div>
+            <div class="summary-val" style="font-size:17px;color:#b45309;">Rp 2.550.000</div>
         </div>
     </div>
 </div>
@@ -473,10 +473,9 @@
         <input type="text" id="search-input" placeholder="Cari penerima, nominal, tanggal..." oninput="filterData()">
     </div>
     <div class="filter-tabs">
-        <button class="tab-btn active" onclick="setFilter('all', this)">Semua (36)</button>
-        <button class="tab-btn" onclick="setFilter('SUY', this)">SUYXXXX (28)</button>
-        <button class="tab-btn" onclick="setFilter('NOV', this)">NOVXXXX (7)</button>
-        <button class="tab-btn" onclick="setFilter('PULSA', this)">Pulsa (1)</button>
+        <button class="tab-btn active" onclick="setFilter('all', this)">🌟 Total Keseluruhan (Sep & Okt: 36)</button>
+        <button class="tab-btn" onclick="setFilter('SEP', this)">🗓️ Bulan September (31 - Rp 48,50Jt)</button>
+        <button class="tab-btn" onclick="setFilter('OKT', this)">🎃 Bulan Oktober (5 - Rp 2,55Jt)</button>
     </div>
 </div>
 
@@ -551,14 +550,14 @@ function render() {
     const bottomTotalEl = document.getElementById('bottom-total');
 
     filteredList = itemsData.filter(item => {
-        if (currentFilter === 'SUY' && !item.nama.includes('SUY')) return false;
-        if (currentFilter === 'NOV' && !item.nama.includes('NOV')) return false;
-        if (currentFilter === 'PULSA' && !item.jenis.includes('Paket Data')) return false;
+        if (currentFilter === 'SEP' && !item.tgl.includes('Sep 2026')) return false;
+        if (currentFilter === 'OKT' && !item.tgl.includes('Okt 2026')) return false;
 
         if (currentSearch) {
-            const q = currentSearch.toLowerCase();
-            const text = `${item.no} ${item.tgl} ${item.sumber} ${item.jenis} ${item.nama} ${item.tujuan_no} ${item.nominal}`.toLowerCase();
-            if (!text.includes(q)) return false;
+            const terms = currentSearch.toLowerCase().split(/\s+/).filter(t => t.length > 0);
+            const text = `${item.no} ${item.tgl} ${item.sumber} ${item.jenis} ${item.nama} ${item.tujuan_no} ${item.nominal} ${item.prod}`.toLowerCase();
+            const matchAllTerms = terms.every(t => text.includes(t));
+            if (!matchAllTerms) return false;
         }
         return true;
     });
